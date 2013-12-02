@@ -41,6 +41,7 @@ public class onClickListener implements View.OnClickListener {
             message.setBody(bodyStr);
             connection.sendPacket(message);
             msgText.append("傳送成功!\n");
+
         } catch (XMPPException e) {
             e.printStackTrace();
         }

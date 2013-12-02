@@ -67,21 +67,20 @@
             android:singleLine="false" />
     </ScrollView>
 
-    <TextView
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/talk_show"
-        android:layout_alignParentTop="true"
+        android:id="@+id/scrollView2"
         android:layout_alignParentLeft="true"
-        android:background="#edfffc"
-        android:layout_above="@+id/btn_refresh" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:id="@+id/btn_refresh"
         android:layout_above="@+id/scrollView"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:background="#e7fffa">
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/talk_show"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
+    </ScrollView>
 </RelativeLayout>

@@ -2,6 +2,7 @@ package net.snoone.app;
 
 import android.accounts.AccountManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +35,7 @@ public class fragment_main extends Fragment{
 
     TextView msgText;
     TextView talkShow;
+    RefreshMessage refreshMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -47,8 +49,7 @@ public class fragment_main extends Fragment{
         msgText = (TextView)rootView.findViewById(R.id.msg);
         talkShow = (TextView)rootView.findViewById(R.id.talk_show);
         Log.i("schat1", "fragment_main onCreateView()");
-        //建立接收訊息連線
-        org.jivesoftware.smack.AccountManager accountManager;
+/*        //建立接收訊息連線
         ConnectionConfiguration config = new ConnectionConfiguration("192.168.1.31", 5222);
         config.setReconnectionAllowed(true);//允許自動連接
         config.setSendPresence(true);
@@ -65,14 +66,12 @@ public class fragment_main extends Fragment{
                     if (message.getBody() != null){
                         Log.i("schat1", "Received from:" + message.getFrom() + " Message:" + message.getBody());
                         //msgText = (TextView)getView().findViewById(R.id.msg);
-                        talkShow.setText( talkShow.getText() + "From:" + message.getFrom() + "=>" + message.getBody() + "\n");
-                        rootView.setOnClickListener(btnRefresh_onClick);
                     }
                 }
             });
         }catch (XMPPException ex){
             Log.e("schat1", ex.toString());
-        }
+        }*/
         return rootView;
     }
 
@@ -80,27 +79,59 @@ public class fragment_main extends Fragment{
     public void onStart(){
         super.onStart();
         Log.i("schat1", "fragment_main onStart()");
+
+        refreshMessage = new RefreshMessage();
+        refreshMessage.start();
+
         //手動發送訊息
         final View btnSend = getView().findViewById(R.id.btn_send);
         btnSend.setOnClickListener(new onClickListener());
-
-        //Refresh
-        View btnRefresh = getView().findViewById(R.id.btn_refresh);
-        btnRefresh.setOnClickListener(btnRefresh_onClick);
-
     }
 
     @Override
     public void onResume(){
         super.onResume();
-
     }
 
-    private Button.OnClickListener btnRefresh_onClick = new Button.OnClickListener(){
-        public void onClick(View v){
-            ((MainActivity)getActivity()).changeText("...End...\n");
+    public Handler mHandler = new Handler(){
+        @Override
+    public void handleMessage(android.os.Message msg){
+            super.handleMessage(msg);
+            talkShow.setText(talkShow.getText() + "\n" + msg.getData().getString("message", ""));
         }
     };
 
-
+    public class RefreshMessage extends Thread{
+        @Override
+        public void run(){
+            super.run();
+            //建立接收訊息連線
+            ConnectionConfiguration config = new ConnectionConfiguration("192.168.1.31", 5222);
+            config.setReconnectionAllowed(true);//允許自動連接
+            config.setSendPresence(true);
+            XMPPConnection connection = new XMPPConnection(config);
+            connection.DEBUG_ENABLED = true;
+            try {
+                connection.connect();
+                connection.login("test1", "test1");
+                Log.i("schat1", connection.getUser());
+                ChatManager chatManager = connection.getChatManager();
+                Chat newChat = chatManager.createChat("t003@of1", new MessageListener() {
+                    @Override
+                    public void processMessage(Chat chat, Message message) {
+                        if (message.getBody() != null){
+                            Log.i("schat1", "Received from:" + message.getFrom() + " Message:" + message.getBody());
+                            Bundle msgBundle = new Bundle();
+                            msgBundle.putString("message", "Received from:" + message.getFrom() + " Message:" + message.getBody());
+                            android.os.Message msg = new android.os.Message();
+                            msg.setData(msgBundle);
+                            mHandler.sendMessage(msg);
+                        }
+                    }
+                });
+            }catch (XMPPException ex){
+                Log.e("schat1", ex.toString());
+            }
+        }
+    }
 }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,22 +53,24 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage(item.getItemId());
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(MainActivity.this, "收到", Toast.LENGTH_SHORT).show();
-                //msg.append("收到\r\n");
-            }
-        });
-        dialog.show();
-
         int id = item.getItemId();
+        Toast.makeText(MainActivity.this, String.valueOf(id), Toast.LENGTH_SHORT).show();
+        switch (id){
+            case 2131165255:
+                Log.i("schat1", "Menu Item 項目1");
 
+                //FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.container, new class_broadcast());
+            case 2131165256:
+                Log.i("schat1", "Menu Item 項目2");
+            default:
+                Log.i("schat1", "Menu Item ID:" + id);
+        }
+
+/*
         if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
+
         return super.onOptionsItemSelected(item);
     }
 
