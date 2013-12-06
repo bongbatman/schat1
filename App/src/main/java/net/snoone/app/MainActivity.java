@@ -54,18 +54,28 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Toast.makeText(MainActivity.this, String.valueOf(id), Toast.LENGTH_SHORT).show();
-        switch (id){
-            case 2131165255:
-                Log.i("schat1", "Menu Item 項目1");
-
-                //FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.container, new class_broadcast());
-            case 2131165256:
-                Log.i("schat1", "Menu Item 項目2");
-            default:
-                Log.i("schat1", "Menu Item ID:" + id);
+        String title = String.valueOf(item.getTitle());
+        //Toast.makeText(MainActivity.this, String.valueOf(id), Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
+        if (title.equals("帳號設定")){
+            Log.i("schat1", title);
+        }else if(title.equals("廣播發送")){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, new class_broadcast(), "BroadCast Fragment");
+            ft.addToBackStack(null);
+            ft.commit();
+        }else if(title.equals("搜尋用戶")){
+            Log.i("schat1", title);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, new class_searchusers(), "SearchUsers Fragment");
+            ft.addToBackStack(null);
+            ft.commit();
+        }else if (title.equals("使用說明")){
+            Log.i("schat1", title);
+        }else {
+            //Log.i("schat1", title);
+            Log.i("schat1", "Menu Item ID:" + id);
         }
-
 /*
         if (id == R.id.action_settings) {
             return true;

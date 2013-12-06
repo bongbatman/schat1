@@ -49,29 +49,6 @@ public class fragment_main extends Fragment{
         msgText = (TextView)rootView.findViewById(R.id.msg);
         talkShow = (TextView)rootView.findViewById(R.id.talk_show);
         Log.i("schat1", "fragment_main onCreateView()");
-/*        //建立接收訊息連線
-        ConnectionConfiguration config = new ConnectionConfiguration("192.168.1.31", 5222);
-        config.setReconnectionAllowed(true);//允許自動連接
-        config.setSendPresence(true);
-        XMPPConnection connection = new XMPPConnection(config);
-        connection.DEBUG_ENABLED = true;
-        try {
-            connection.connect();
-            connection.login("test1", "test1");
-            Log.i("schat1", connection.getUser());
-            ChatManager chatManager = connection.getChatManager();
-            Chat newChat = chatManager.createChat("t003@of1", new MessageListener() {
-                @Override
-                public void processMessage(Chat chat, Message message) {
-                    if (message.getBody() != null){
-                        Log.i("schat1", "Received from:" + message.getFrom() + " Message:" + message.getBody());
-                        //msgText = (TextView)getView().findViewById(R.id.msg);
-                    }
-                }
-            });
-        }catch (XMPPException ex){
-            Log.e("schat1", ex.toString());
-        }*/
         return rootView;
     }
 
@@ -88,19 +65,16 @@ public class fragment_main extends Fragment{
         btnSend.setOnClickListener(new onClickListener());
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-    }
+/*========================= Class ====================================*/
 
+    // Thread
     public Handler mHandler = new Handler(){
         @Override
-    public void handleMessage(android.os.Message msg){
+        public void handleMessage(android.os.Message msg){
             super.handleMessage(msg);
             talkShow.setText(talkShow.getText() + "\n" + msg.getData().getString("message", ""));
         }
     };
-
     public class RefreshMessage extends Thread{
         @Override
         public void run(){
@@ -134,4 +108,42 @@ public class fragment_main extends Fragment{
             }
         }
     }
+
+    // button click event
+    public class onClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            View v = (View) view.getParent();
+            TextView msgText = (TextView) v.findViewById(R.id.msg);
+            //msgText.append("傳送了\n");
+            EditText sendBody = (EditText)v.findViewById(R.id.edit_message_body);//使用者輸入-訊息文本
+            EditText sendTarget = (EditText)v.findViewById(R.id.edit_message_target);//使用者輸入-發送對象
+            String bodyStr =  sendBody.getText().toString();//傳送訊息內容
+            String targetStr =  sendTarget.getText().toString();//傳送對象
+            if(targetStr.length()==0){
+                sendTarget.setError("請輸入發送目標帳號");
+                return;
+            }
+            // 連線主機資料
+            String HOST = "192.168.1.31";
+            int PORT = 5222;
+            String SERVICE = "jabber";
+            ConnectionConfiguration config = new ConnectionConfiguration(HOST, PORT);
+            XMPPConnection connection = new XMPPConnection(config);
+            try {
+                connection.connect();
+                connection.login("test1", "test1");//使用登入帳號
+                Message message = new Message(targetStr,Message.Type.chat);
+                message.setBody(bodyStr);
+                connection.sendPacket(message);
+                connection.disconnect();
+                msgText.append("傳送成功!\n");
+
+            } catch (XMPPException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }

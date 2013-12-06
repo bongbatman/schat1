@@ -7,8 +7,16 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item android:id="@+id/action_broadcast"
+        android:title="@string/action_broadcast"
+        android:orderInCategory="200"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_search_users"
+        android:title="@string/action_search_users"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
     <item android:id="@+id/action_guide"
         android:title="@string/action_guide"
-        android:orderInCategory="100"
+        android:orderInCategory="400"
         app:showAsAction="never" />
 </menu>
