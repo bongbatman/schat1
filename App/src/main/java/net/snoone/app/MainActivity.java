@@ -27,6 +27,8 @@ import org.jivesoftware.smackx.muc.MultiUserChat;
 
 public class MainActivity extends ActionBarActivity {
 
+    public String testString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

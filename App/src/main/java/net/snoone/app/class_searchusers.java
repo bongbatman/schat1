@@ -104,16 +104,9 @@ public class class_searchusers extends Fragment {
                 connection.connect();//開啟連接
                 //accountManager = connection.getAccountManager();//獲取帳戶管理
                 connection.login("test1", "test1");//登入帳號
-                //列印所有成員
-                Roster roster = connection.getRoster();
-                Collection<RosterEntry> entries = roster.getEntries();
                 //Log.i("schat1", entries.toString());
                 ListView listView = (ListView)getView().findViewById(R.id.listView1);
                 ArrayList<String> listSource = new ArrayList<String>();
-/*                for (RosterEntry entry:entries){
-                    Log.i("schat1", entry.toString());
-                    listSource.add(entry.toString());
-                }*/
                 ProviderManager.getInstance().addIQProvider("query", "jabber:iq:search", new UserSearch.Provider());
                 UserSearchManager userSearchManager = new UserSearchManager(connection);
                 Form searchForm = userSearchManager.getSearchForm("search." + connection.getServiceName());
