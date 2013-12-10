@@ -14,23 +14,29 @@
 
     <EditText
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/etxt_broadcast"
         android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/btn_broad_send"
         android:layout_alignParentEnd="false"
-        android:layout_below="@+id/txt_msg"
-        android:background="#b0ff00"
-        android:layout_margin="5dp" />
+        android:background="#b0ff00" />
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:id="@+id/txt_msg"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:background="#ffd700"
-        android:layout_margin="5dp" />
+        android:layout_above="@+id/etxt_broadcast"
+        android:layout_alignLeft="@+id/etxt_broadcast" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/txt_msg"
+        android:choiceMode="multipleChoiceModal" />
 
 </RelativeLayout>
