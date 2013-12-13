@@ -45,14 +45,11 @@ public class fragment_main extends Fragment{
     RefreshMessage refreshMessage;
     AutoCompleteTextView autoCompleteTextView;
 
-    ConnectionConfiguration config;
-    XMPPConnection connection;
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i("schat1", "fragment_main onCreate()");
-        config = new ConnectionConfiguration("192.168.1.31", 5222, "hl");
+/*        config = new ConnectionConfiguration("192.168.1.31", 5222, "hl");
         config.setReconnectionAllowed(true);//允許自動連接
         config.setSendPresence(true);
         connection = new XMPPConnection(config);
@@ -63,7 +60,7 @@ public class fragment_main extends Fragment{
         }catch (XMPPException ex){
             Log.e("schat1", ex.toString());
             return;
-        }
+        }*/
 
     }
 
@@ -116,8 +113,8 @@ public class fragment_main extends Fragment{
         @Override
         public void run(){
             super.run();
-            Log.i("schat1", connection.getUser());
-            ChatManager chatManager = connection.getChatManager(); // Create Chat manager
+            Log.i("schat1", MainActivity.connection.getUser());
+            ChatManager chatManager = MainActivity.connection.getChatManager(); // Create Chat manager
             String chatTarget = autoCompleteTextView.getText().toString(); //取得欲建立聊天的對象
             if(chatTarget.equals(null) || chatTarget.equals("")){
                 chatTarget = "test1@of1";
@@ -166,8 +163,8 @@ public class fragment_main extends Fragment{
                 //connection.login("test1", "test1");//使用登入帳號
                 Message message = new Message(targetStr,Message.Type.chat);
                 message.setBody(bodyStr);
-                connection.sendPacket(message);
-                talkShow.setText(talkShow.getText() + connection.getUser() + "==>" + targetStr + ": " + bodyStr + "\n");
+                MainActivity.connection.sendPacket(message);
+                talkShow.setText(talkShow.getText() + MainActivity.connection.getUser() + "==>" + targetStr + ": " + bodyStr + "\n");
                 //connection.disconnect();
                 msgText.append("傳送成功!\n");
 
@@ -204,7 +201,7 @@ public class fragment_main extends Fragment{
     public void RosterAutoComplete(){
         ArrayList<String> rosterList = new ArrayList<String>();
         //List member
-        Roster roster = connection.getRoster();
+        Roster roster = MainActivity.connection.getRoster();
         Collection<RosterEntry> entries = roster.getEntries();
         for(RosterEntry entry:entries){
             rosterList.add(entry.getUser());

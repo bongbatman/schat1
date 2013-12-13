@@ -2,6 +2,7 @@ package net.snoone.app;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
@@ -27,7 +28,9 @@ import org.jivesoftware.smackx.muc.MultiUserChat;
 
 public class MainActivity extends ActionBarActivity {
 
-    public String testString;
+    public static ConnectionConfiguration config;
+    public static XMPPConnection connection;
+    public static SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,25 @@ public class MainActivity extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new fragment_main())
                     .commit();
+        }
+
+        // Preferences
+        prefs = getSharedPreferences("schat1Prefs", 0);
+        Log.i("schat1", "SharedPreferences:"+prefs.getAll().toString());
+
+        // 連線主機
+        config = new ConnectionConfiguration("192.168.1.31", 5222, "hl");
+        config.setReconnectionAllowed(true);//允許自動連接
+        config.setSendPresence(true);
+        connection = new XMPPConnection(config);
+        connection.DEBUG_ENABLED = true;
+        try {
+            connection.connect();//開啟連接
+            connection.login("test1", "test1");//登入帳號
+        } catch (XMPPException e) {
+            Toast.makeText(this, "帳號登入失敗:"+e.toString(), Toast.LENGTH_LONG).show();
+            Log.e("schat1", e.toString());
+            return;
         }
     }
 
@@ -59,8 +81,11 @@ public class MainActivity extends ActionBarActivity {
         String title = String.valueOf(item.getTitle());
         //Toast.makeText(MainActivity.this, String.valueOf(id), Toast.LENGTH_SHORT).show();
         Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
-        if (title.equals("帳號設定")){
-            Log.i("schat1", title);
+        if (title.equals("偏好設定")){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, new class_setting(), "Setting Fragment");
+            ft.addToBackStack(null);
+            ft.commit();
         }else if(title.equals("廣播發送")){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.container, new class_broadcast(), "BroadCast Fragment");

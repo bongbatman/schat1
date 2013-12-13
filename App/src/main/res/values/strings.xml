@@ -3,7 +3,7 @@
 
     <string name="app_name">schat1</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">帳號設定</string>
+    <string name="action_settings">偏好設定</string>
     <string name="action_broadcast">廣播發送</string>
     <string name="action_search_users">搜尋用戶</string>
     <string name="action_guide">使用說明</string>

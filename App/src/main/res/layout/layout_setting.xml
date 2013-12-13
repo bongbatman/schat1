@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/Layout_Setting" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblAccoungInfo"
+        android:text="登入帳號資訊"
+        android:layout_margin="10dp"
+        android:background="#00ffee" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="帳號"
+        android:id="@+id/txtAccount"
+        android:layout_below="@+id/lblAccoungInfo"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="密碼"
+        android:id="@+id/txtPassword"
+        android:layout_below="@+id/txtAccount"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edtAccount"
+        android:layout_above="@+id/txtPassword"
+        android:layout_toRightOf="@+id/txtAccount"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtAccount"
+        android:layout_toRightOf="@+id/txtPassword"
+        android:layout_marginRight="10dp"
+        android:inputType="textPassword"
+        android:id="@+id/edtPassword" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="連線主機資訊"
+        android:id="@+id/lblHostInfo"
+        android:layout_below="@+id/txtPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="31dp"
+        android:layout_marginLeft="10dp"
+        android:background="#00ffee" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtHostAddress"
+        android:layout_below="@+id/lblHostInfo"
+        android:layout_alignLeft="@+id/lblHostInfo"
+        android:layout_marginTop="10dp"
+        android:text="主機位置(FQDN或IP)" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtHostPort"
+        android:text="連線埠號"
+        android:layout_below="@+id/edtHostAddress"
+        android:layout_alignLeft="@+id/edtHostAddress"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edtHostAddress"
+        android:layout_below="@+id/txtHostAddress"
+        android:layout_alignLeft="@+id/txtHostAddress"
+        android:layout_marginRight="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edtHostPort"
+        android:layout_below="@+id/edtHostAddress"
+        android:layout_toRightOf="@+id/txtHostPort"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="儲存偏好"
+        android:id="@+id/btnSavePrefs"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
