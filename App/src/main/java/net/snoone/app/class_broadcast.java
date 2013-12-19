@@ -13,23 +13,16 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.jivesoftware.smack.AccountManager;
-import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -45,27 +38,10 @@ public class class_broadcast  extends Fragment{
     Collection<RosterGroup> rosterGroups;//朋友群組(RosterGroup)
     List<Boolean> SelectedItems;
 
-    //ConnectionConfiguration config;
-    //XMPPConnection connection;
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i("frag1", "on Create Fragment");
-
-/*        // 連線主機
-        config = new ConnectionConfiguration("192.168.1.31", 5222, "hl");
-        connection = new XMPPConnection(config);
-        connection.DEBUG_ENABLED = false;
-        try {
-            connection.connect();//開啟連接
-            connection.login("test1", "test1");//登入帳號
-        } catch (XMPPException e) {
-            Toast.makeText(getActivity(), "帳號登入失敗:"+e.toString(), Toast.LENGTH_LONG).show();
-            //e.printStackTrace();
-        }*/
-
-
     }
 
     @Override
@@ -105,11 +81,7 @@ public class class_broadcast  extends Fragment{
         listView.setAdapter(new itemAdapter(getActivity(), mStringArray));//配接資料來源
         //SelectedItems = new ArrayList<Boolean>();
         listView.setOnItemClickListener(new listViewItemClick());// 任命ListView按下觸發處理專員
-
     }
-
-/*======================== Func ===============================*/
-
 
 /*======================== Class ===============================*/
 
@@ -135,8 +107,6 @@ public class class_broadcast  extends Fragment{
             ArrayList<RosterGroup> rosterGroupList = new ArrayList<RosterGroup>(rosterGroups);// 為了方便存取起見，把Collection轉為ArrayList
             for(int v1=0; v1<SelectedItems.size(); v1++){
                 if(SelectedItems.get(v1).equals(true)){
-                    //Log.i("schat1", friendsGroup.get(v1).toString()+" 是必須發送的群組");
-                    //Log.i("schat1", rosterGroupList.get(v1).getName()+" 是必須發送的群組");
                     Collection<RosterEntry> rosterEntries = rosterGroupList.get(v1).getEntries();
                     for (RosterEntry rosterEntry:rosterEntries){
                         Message message = new Message();
@@ -149,19 +119,6 @@ public class class_broadcast  extends Fragment{
                     }
                 }
             }
-
-/*            Roster roster = MainActivity.connection.getRoster();
-            Collection<RosterEntry> entries = roster.getEntries();
-            Log.i("schat1", "Roster Entry:"+entries.toString());
-            ArrayList<String> sendUsersList = new ArrayList<String>();
-            for (RosterEntry entry:entries){
-                sendUsersList.add(entry.getName());
-                Collection<RosterGroup> userGroups = entry.getGroups();//使用者所屬群組
-                for (RosterGroup uGroup:userGroups){
-                    //檢查是否為發送群組成員
-                    Log.i("schat1", uGroup.getName());
-                }
-            }*/
         }
     }
 
@@ -222,8 +179,6 @@ public class class_broadcast  extends Fragment{
             Log.i("schat1", "你點選了"+(i+1));
             Log.i("schat1", SelectedItems.toString());
         }
-
-
     }
 
 }

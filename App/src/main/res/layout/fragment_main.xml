@@ -15,7 +15,8 @@
         android:background="#ffff00"
         android:layout_above="@+id/label_message_target"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/scrollView2">
+        android:layout_alignRight="@+id/scrollView2"
+        android:focusable="false">
 
         <TextView
             android:layout_width="fill_parent"
@@ -33,8 +34,8 @@
         android:id="@+id/scrollView2"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/scrollView"
-        android:layout_alignParentTop="true"
-        android:background="#e7fffa">
+        android:background="#e7fffa"
+        android:layout_alignParentTop="true">
 
         <TextView
             android:layout_width="fill_parent"
@@ -50,7 +51,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/label_message_target"
         android:layout_above="@+id/autoCompleteTextView"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"  />
 
     <AutoCompleteTextView
         android:layout_width="wrap_content"

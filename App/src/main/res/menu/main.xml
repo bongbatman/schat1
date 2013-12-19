@@ -15,8 +15,8 @@
         android:title="@string/action_search_users"
         android:orderInCategory="300"
         app:showAsAction="never" />
-    <item android:id="@+id/action_guide"
+<!--    <item android:id="@+id/action_guide"
         android:title="@string/action_guide"
         android:orderInCategory="400"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 </menu>

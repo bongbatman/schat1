@@ -49,19 +49,6 @@ public class fragment_main extends Fragment{
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i("schat1", "fragment_main onCreate()");
-/*        config = new ConnectionConfiguration("192.168.1.31", 5222, "hl");
-        config.setReconnectionAllowed(true);//允許自動連接
-        config.setSendPresence(true);
-        connection = new XMPPConnection(config);
-        connection.DEBUG_ENABLED = true;
-        try {
-            connection.connect();
-            connection.login("test1", "test1");
-        }catch (XMPPException ex){
-            Log.e("schat1", ex.toString());
-            return;
-        }*/
-
     }
 
     @Override
@@ -113,6 +100,10 @@ public class fragment_main extends Fragment{
         @Override
         public void run(){
             super.run();
+            if(MainActivity.loginFlag==false){
+                Toast.makeText(getActivity(), "Login fail:", Toast.LENGTH_LONG).show();
+                return;
+            }
             Log.i("schat1", MainActivity.connection.getUser());
             ChatManager chatManager = MainActivity.connection.getChatManager(); // Create Chat manager
             String chatTarget = autoCompleteTextView.getText().toString(); //取得欲建立聊天的對象
@@ -140,37 +131,27 @@ public class fragment_main extends Fragment{
     public class onClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            if(MainActivity.loginFlag==false){
+                Toast.makeText(getActivity(), "Login fail:", Toast.LENGTH_LONG).show();
+                return;
+            }
             View v = (View) view.getParent();
             TextView msgText = (TextView) v.findViewById(R.id.msg);
             //msgText.append("傳送了\n");
             EditText sendBody = (EditText)v.findViewById(R.id.edit_message_body);//使用者輸入-訊息文本
-            //EditText sendTarget = (EditText)v.findViewById(R.id.edit_message_target);//使用者輸入-發送對象
             String bodyStr =  sendBody.getText().toString();//傳送訊息內容
             String targetStr =  autoCompleteTextView.getText().toString();//sendTarget.getText().toString();//傳送對象
+            if(targetStr.equals("") || targetStr.equals(null)){
+                msgText.setText(msgText.getText()+"請輸入傳送對象!\n");
+                return;
+            }
             Log.i("schat1", targetStr);
-            //if(targetStr.length()==0){
-                //sendTarget.setError("請輸入發送目標帳號");
-                //return;
-            //}
-            // 連線主機資料
-            //String HOST = "192.168.1.31";
-            //int PORT = 5222;
-            //String SERVICE = "hl";
-            //config = new ConnectionConfiguration(HOST, PORT, SERVICE);
-
-            //try {
-                //connection.connect();
-                //connection.login("test1", "test1");//使用登入帳號
-                Message message = new Message(targetStr,Message.Type.chat);
-                message.setBody(bodyStr);
-                MainActivity.connection.sendPacket(message);
-                talkShow.setText(talkShow.getText() + MainActivity.connection.getUser() + "==>" + targetStr + ": " + bodyStr + "\n");
-                //connection.disconnect();
-                msgText.append("傳送成功!\n");
-
-            //} catch (XMPPException e) {
-                //e.printStackTrace();
-            //}
+            Message message = new Message(targetStr,Message.Type.chat);
+            message.setBody(bodyStr);
+            MainActivity.connection.sendPacket(message);
+            talkShow.setText(talkShow.getText() + MainActivity.connection.getUser() + "==>" + targetStr + ": " + bodyStr + "\n");
+            //connection.disconnect();
+            msgText.append("傳送成功!\n");
         }
     }
 
@@ -199,6 +180,9 @@ public class fragment_main extends Fragment{
 
     // 取得好友，列入自動文字清單
     public void RosterAutoComplete(){
+        if (MainActivity.loginFlag==false){
+            return;//沒有連線成功
+        }
         ArrayList<String> rosterList = new ArrayList<String>();
         //List member
         Roster roster = MainActivity.connection.getRoster();
